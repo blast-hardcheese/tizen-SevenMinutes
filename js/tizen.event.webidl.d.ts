@@ -1,0 +1,3 @@
+interface Event {
+    keyName: String;
+}
