@@ -1,9 +1,9 @@
-/// <reference path="/Users/blast/Projects/typescript/DefinitelyTyped/jquerymobile/jquerymobile.d.ts" />
-/// <reference path="/Users/blast/Projects/typescript/DefinitelyTyped/jquery/jquery.d.ts" />
-/// <reference path="tizen.webidl.d.ts" />
-/// <reference path="tizen.event.webidl.d.ts" />
-/// <reference path="tizen.application.webidl.d.ts" />
-/// <reference path="tizen.package.webidl.d.ts" />
+/// <reference path="deps/jquerymobile/jquerymobile.d.ts" />
+/// <reference path="deps/jquery/jquery.d.ts" />
+/// <reference path="deps/tizen.webidl.d.ts" />
+/// <reference path="deps/tizen.event.webidl.d.ts" />
+/// <reference path="deps/tizen.application.webidl.d.ts" />
+/// <reference path="deps/tizen.package.webidl.d.ts" />
 
 var backEventListener = null;
 
