@@ -13,7 +13,6 @@ body div.content {
 	height: 50%;
 	top: 25%;
 	vertical-align: center;
-	background-color: blue;
 }
 
 body div.content > div.inner {
@@ -21,9 +20,9 @@ body div.content > div.inner {
     display: none;
 }
 
-body div.content h2.text {
+body div.content h2 {
 	color: #F8F8FF;
-	text-shadow: 0 /*{c-body-shadow-x}*/ 1px /*{c-body-shadow-y}*/ 0 /*{c-body-shadow-radius}*/ #AAA0A0 /*{c-body-shadow-color}*/;
+	text-shadow: none;
 	text-align: center;
 	margin: auto;
 	line-height: 80px;
@@ -33,9 +32,14 @@ body div.content h2.text {
 
 body div.content .start {
 	margin-top: 1em;
-    background-color: red;
 	width: 75%;
 	height: 20%;
 	margin: auto;
 	font-size: 6em;
+}
+
+body div.content .exercises .image {
+    width: 2em;
+    height: 2em;
+    background-color: red;
 }

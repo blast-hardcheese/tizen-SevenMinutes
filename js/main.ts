@@ -9,6 +9,7 @@ var backEventListener = null;
 
 enum State {
     INIT,
+    COUNTDOWN,
     EXERCISE,
     FINISHED,
 }
@@ -17,6 +18,11 @@ enum State {
 var app = {
     refs: {
         startButton: ".container .content .start",
+        countdownLabel: ".container .content .countdown .text",
+        countdownDescription: ".container .content .countdown .next",
+        exerciseLabel: ".container .content .exercise .label",
+        exerciseText: ".container .content .exercise .text",
+        exerciseImage: ".container .content .exercise .image",
     },
 
     data: {
@@ -58,46 +64,71 @@ var app = {
 
         // Initialization
         $(app.refs.startButton).click(function() {
-            console.log("Start pressed!");
-            app.start();
+            app.data.state = 1;
+            app.become(State.COUNTDOWN);
         });
 
+        $(".container .content .b").each(function(i, elem) { $(elem).click({label: i}, function(event) {
+            app.become(event.data["label"]);
+        }); });
         app.become(State.INIT);
     },
 
-    start: function() {
-        app.data.state = 0;
-        app.become(State.EXERCISE);
-        app.initializeNext();
-    },
-
-    initializeNext: function() {
-        app.data.state += 1;
+    // Switch to the next state
+    nextExercise: function() {
         var curkey = app.data.seq[app.data.state];
         if(curkey != undefined) {
             console.log("Switching to:", curkey);
+            app.become(State.COUNTDOWN);
             app.countdown(5, function() {
                 console.log("countdown reached");
                 app.initializeNext();
             });
         } else {
             app.countdown(5, function() {
+                app.become(State.FINISHED);
                 console.log("End reached");
             });
         }
     },
 
     become: function(state: State) {
+        $(".container .content .inner").hide();
+        var label = app.data.seq[app.data.state];
         switch(state) {
             case State.INIT:
                 console.log("become INIT");
                 $(".container .content .inner.before").show();
                 break;
+            case State.COUNTDOWN:
+                $(".container .content .inner.countdown").show();
+                console.log("become COUNTDOWN");
+                app.countdownEach(5, function(left: Number) {
+                    $(app.refs.countdownLabel).text("In " + left + "...");
+                }, function() {
+                    app.become(State.EXERCISE);
+                });
+                $(app.refs.countdownDescription).text("Prepare to start: " + label);
+                break;
             case State.EXERCISE:
+                app.countdownEach(5, function(left: Number) {
+                    $(app.refs.exerciseLabel).text(label);
+                    $(app.refs.exerciseText).text("" + left + " second" + ((left > 1) ? "s":"") + " left");
+                    $(app.refs.exerciseImage).attr("src", "images/aocaktm.gif");
+                }, function() {
+                    app.data.state += 1;
+                    if(app.data.state < app.data.seq.length) {
+                        app.become(State.COUNTDOWN);
+                    } else {
+                        app.become(State.FINISHED);
+                    }
+                });
+                $(".container .content .inner.exercise").show();
                 console.log("become EXERCISE");
                 break;
             case State.FINISHED:
                 console.log("become FINISHED");
+                $(".container .content .inner.finished").show();
                 break;
         }
     },
@@ -111,6 +142,22 @@ var app = {
             app.data.timer = undefined;
             callback();
         }, duration * 1000);
+    },
+
+    countdownEach: function(left: number, callback: Function, done: Function) {
+        if(app.data.timer != undefined) {
+            console.log("TIMEOUT CONFLICT");
+            clearTimeout(app.data.timer);
+        }
+        if(left > 0) {
+            callback(left);
+            app.data.timer = setTimeout(function() {
+                app.data.timer = undefined;
+                app.countdownEach(left - 1, callback, done);
+            }, 1000);
+        } else {
+            done();
+        }
     },
 
     unregister: function() {
