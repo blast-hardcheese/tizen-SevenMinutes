@@ -1,3 +1,3 @@
 interface Event {
-    keyName: String;
+  keyName: String;
 }
