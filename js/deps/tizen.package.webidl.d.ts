@@ -5,10 +5,10 @@ interface PackageManagerObject {
 
 interface Tizen extends PackageManagerObject {}
 interface PackageManager {
-  install(path: String, progressCallback: PackageProgressCallback, errorCallback: ErrorCallback): void;
-  uninstall(id: PackageId, progressCallback: PackageProgressCallback, errorCallback: ErrorCallback): void;
-  getPackagesInfo(successCallback: PackageInformationArraySuccessCallback, errorCallback: ErrorCallback): void;
-  getPackageInfo(id: PackageId): PackageInformation;
+  install(path: String, progressCallback: PackageProgressCallback, errorCallback?: ErrorCallback): void;
+  uninstall(id: PackageId, progressCallback: PackageProgressCallback, errorCallback?: ErrorCallback): void;
+  getPackagesInfo(successCallback: PackageInformationArraySuccessCallback, errorCallback?: ErrorCallback): void;
+  getPackageInfo(id?: PackageId): PackageInformation;
   setPackageInfoEventListener(eventCallback: PackageInformationEventCallback): void;
   unsetPackageInfoEventListener(): void;
 }

@@ -7,17 +7,17 @@ interface ApplicationManagerObject {
 interface Tizen extends ApplicationManagerObject {}
 interface ApplicationManager {
   getCurrentApplication(): Application;
-  kill(contextId: ApplicationContextId, successCallback: SuccessCallback, errorCallback: ErrorCallback): void;
-  launch(id: ApplicationId, successCallback: SuccessCallback, errorCallback: ErrorCallback): void;
-  launchAppControl(appControl: ApplicationControl, id: ApplicationId, successCallback: SuccessCallback, errorCallback: ErrorCallback, replyCallback: ApplicationControlDataArrayReplyCallback): void;
-  findAppControl(appControl: ApplicationControl, successCallback: FindAppControlSuccessCallback, errorCallback: ErrorCallback): void;
-  getAppsContext(successCallback: ApplicationContextArraySuccessCallback, errorCallback: ErrorCallback): void;
-  getAppContext(contextId: ApplicationContextId): ApplicationContext;
-  getAppsInfo(successCallback: ApplicationInformationArraySuccessCallback, errorCallback: ErrorCallback): void;
-  getAppInfo(id: ApplicationId): ApplicationInformation;
-  getAppCerts(id: ApplicationId): ApplicationCertificate[];
-  getAppSharedURI(id: ApplicationId): String;
-  getAppMetaData(id: ApplicationId): ApplicationMetaData[];
+  kill(contextId: ApplicationContextId, successCallback?: SuccessCallback, errorCallback?: ErrorCallback): void;
+  launch(id: ApplicationId, successCallback?: SuccessCallback, errorCallback?: ErrorCallback): void;
+  launchAppControl(appControl: ApplicationControl, id?: ApplicationId, successCallback?: SuccessCallback, errorCallback?: ErrorCallback, replyCallback?: ApplicationControlDataArrayReplyCallback): void;
+  findAppControl(appControl: ApplicationControl, successCallback: FindAppControlSuccessCallback, errorCallback?: ErrorCallback): void;
+  getAppsContext(successCallback: ApplicationContextArraySuccessCallback, errorCallback?: ErrorCallback): void;
+  getAppContext(contextId?: ApplicationContextId): ApplicationContext;
+  getAppsInfo(successCallback: ApplicationInformationArraySuccessCallback, errorCallback?: ErrorCallback): void;
+  getAppInfo(id?: ApplicationId): ApplicationInformation;
+  getAppCerts(id?: ApplicationId): ApplicationCertificate[];
+  getAppSharedURI(id?: ApplicationId): String;
+  getAppMetaData(id?: ApplicationId): ApplicationMetaData[];
   addAppInfoEventListener(eventCallback: ApplicationInformationEventCallback): Number;
   removeAppInfoEventListener(watchId: Number): void;
 }
@@ -63,7 +63,7 @@ interface ApplicationControl {
 interface RequestedApplicationControl {
   appControl: ApplicationControl;
   callerAppId: ApplicationId;
-  replyResult(data: ApplicationControlData[]): void;
+  replyResult(data?: ApplicationControlData[]): void;
   replyFailure(): void;
 }
 
@@ -90,7 +90,7 @@ interface ApplicationContextArraySuccessCallback {
 }
 
 interface ApplicationControlDataArrayReplyCallback {
-  onsuccess(data: ApplicationControlData[]): void;
+  onsuccess(data?: ApplicationControlData[]): void;
   onfailure(): void;
 }
 
