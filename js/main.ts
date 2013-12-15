@@ -64,32 +64,17 @@ var app = {
 
         // Initialization
         $(app.refs.startButton).click(function() {
+            event.preventDefault();
+
             app.data.state = 1;
             app.become(State.COUNTDOWN);
+            return false;
         });
 
-        $(".container .content .b").each(function(i, elem) { $(elem).click({label: i}, function(event) {
-            app.become(event.data["label"]);
-        }); });
+        $(".container").click(function() {
+            clearTimeout(app.data.timer);
+        });
         app.become(State.INIT);
-    },
-
-    // Switch to the next state
-    nextExercise: function() {
-        var curkey = app.data.seq[app.data.state];
-        if(curkey != undefined) {
-            console.log("Switching to:", curkey);
-            app.become(State.COUNTDOWN);
-            app.countdown(5, function() {
-                console.log("countdown reached");
-                app.initializeNext();
-            });
-        } else {
-            app.countdown(5, function() {
-                app.become(State.FINISHED);
-                console.log("End reached");
-            });
-        }
     },
 
     become: function(state: State) {
@@ -111,10 +96,13 @@ var app = {
                 $(app.refs.countdownDescription).text("Prepare to start: " + label);
                 break;
             case State.EXERCISE:
-                app.countdownEach(5, function(left: Number) {
+                console.log("become EXERCISE");
+                $(app.refs.exerciseImage).css("background-image", "url(images/aocaktm.gif)");
+
+                app.countdownEach(30, function(left: Number) {
                     $(app.refs.exerciseLabel).text(label);
                     $(app.refs.exerciseText).text("" + left + " second" + ((left > 1) ? "s":"") + " left");
-                    $(app.refs.exerciseImage).attr("src", "images/aocaktm.gif");
+                    console.log("image:", $(app.refs.exerciseImage));
                 }, function() {
                     app.data.state += 1;
                     if(app.data.state < app.data.seq.length) {
@@ -124,24 +112,12 @@ var app = {
                     }
                 });
                 $(".container .content .inner.exercise").show();
-                console.log("become EXERCISE");
                 break;
             case State.FINISHED:
                 console.log("become FINISHED");
                 $(".container .content .inner.finished").show();
                 break;
         }
-    },
-
-    countdown: function(duration: number, callback: Function) {
-        if(app.data.timer != undefined) {
-            console.log("TIMEOUT CONFLICT");
-            clearTimeout(app.data.timer);
-        }
-        app.data.timer = setTimeout(function() {
-            app.data.timer = undefined;
-            callback();
-        }, duration * 1000);
     },
 
     countdownEach: function(left: number, callback: Function, done: Function) {

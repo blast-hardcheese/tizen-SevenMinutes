@@ -38,8 +38,10 @@ body div.content .start {
 	font-size: 6em;
 }
 
-body div.content .exercises .image {
-    width: 2em;
-    height: 2em;
-    background-color: red;
+body div.content .exercise .image {
+    width: 15em;
+    height: 15em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0 0;
 }
