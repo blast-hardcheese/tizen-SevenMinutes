@@ -29,6 +29,7 @@ var app = {
         state: undefined,
 
         timer: undefined,
+        next: undefined,
         secondsRemaining: 30,
 
         seq: ["init", "Jumping Jacks", "Wall-Sit", "Push-Up", "Ab-Crunch", "Chair-Step", "Squats", "Tricep Dips", "Plank", "Running", "Lunge", "Push-Up to Rotation", "Side Plank"],
@@ -72,7 +73,12 @@ var app = {
         });
 
         $(".container").click(function() {
-            clearTimeout(app.data.timer);
+            if(app.data.next != undefined) {
+                clearTimeout(app.data.timer);
+                var next = app.data.next;
+                app.data.next = undefined;
+                next();
+            }
         });
         app.become(State.INIT);
     },
@@ -122,6 +128,7 @@ var app = {
     },
 
     countdownEach: function(left: number, callback: Function, done: Function) {
+        app.data.next = done;
         if(app.data.timer != undefined) {
             console.log("TIMEOUT CONFLICT");
             clearTimeout(app.data.timer);
