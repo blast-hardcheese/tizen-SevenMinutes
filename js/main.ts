@@ -97,9 +97,10 @@ var app = {
                 break;
             case State.EXERCISE:
                 console.log("become EXERCISE");
-                $(app.refs.exerciseImage).css("background-image", "url(images/aocaktm.gif)");
+                $(app.refs.exerciseImage).css("background-image", "url(images/" + label.replace(" ", "_") + ".png)");
 
-                app.countdownEach(30, function(left: Number) {
+                app.countdownEach(30, function(left: number) {
+                    $(app.refs.exerciseImage).css("background-position-x", (left % 2)?"-15em":"0");
                     $(app.refs.exerciseLabel).text(label);
                     $(app.refs.exerciseText).text("" + left + " second" + ((left > 1) ? "s":"") + " left");
                     console.log("image:", $(app.refs.exerciseImage));

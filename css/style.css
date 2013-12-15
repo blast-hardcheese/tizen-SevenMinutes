@@ -41,7 +41,7 @@ body div.content .start {
 body div.content .exercise .image {
     width: 15em;
     height: 15em;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: 0 0;
 }
